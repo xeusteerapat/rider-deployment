@@ -1,0 +1,23 @@
+version: "3"
+services:
+  rider:
+    image: mysql
+    container_name: "rider"
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./init.sql:/data/application/init.sql
+    environment:
+      MYSQL_USER: "root"
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: "rider"
+  backend:
+    build: ./rider-backend
+    restart: always
+    ports:
+      - "5510:8000"
+  frontend:
+    build: ./rider-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    stdin_open: true
